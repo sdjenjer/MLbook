@@ -1,37 +1,5 @@
-\documentclass[12 pt]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T2A]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[russian]{babel}
-\usepackage[usenames]{color}
-\usepackage{colortbl}
-\usepackage{tikz}
-\usepackage{amsmath}
-\textwidth=18.5cm\topmargin=-1in\textheight=25cm\oddsidemargin=0in\hoffset=0mm
-\tolerance=10000\binoppenalty=10000\relpenalty=10000
-\usepackage{amsfonts}
-\usepackage[active]{srcltx}
-\usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage{amsthm}
-\theoremstyle{remark}
-\newtheorem*{rem}{Замечание}
-\usepackage{graphicx}
-\usepackage{caption}
-\usepackage{wasysym}
-\usepackage{mathtools}
-\usepackage[unicode, pdftex]{hyperref}
-\setcounter{MaxMatrixCols}{20}
-\graphicspath{{pictures/}}
-\DeclareGraphicsExtensions{.pdf,.png,.jpg}
-\addto\captionsrussian{\def\refname{Литература}}
-\usepackage[14pt]{extsizes} % для того чтобы задать нестандартный 14-ый размер шрифта
-\usepackage[utf8]{inputenc}
-\usepackage[russian]{babel}
-\usepackage{setspace,amsmath, accents}
-\usepackage[left=15mm, top=15mm, right=15mm, bottom=15mm, nohead, footskip=10mm]{geometry} % настройки полей документа
+\section{Метод окна Парзена.}
 
-\begin{document} % начало документа
 Напомним идею метрического классификатора. Будем обозначать $x = (x^1, ..., x^n)$ - вектор признаков объекта $x$, $x_i = (x_i^1, ..., x_i^n)$ - вектор признаков объекта $x_i$. Пусть на пространстве признаков задана метрика $\rho$. Для произвольного объекта $x$ отранжируем объекты обучающей выборки $x_1, x_2, ..., x_l$:
 \begin{equation*}
     \rho(x, x^{(1)}) \le \rho(x, x^{(2)}) \le ... \le \rho(x, x^{(l)}).
@@ -124,5 +92,3 @@
 \begin{equation*}
     \displaystyle\int\limits_{-1}^{1}\left[\alpha_1K_1(r)+\alpha_2K_2(r) +\alpha_3K_3(r)+\alpha_4K_4(r)\right]dr = \alpha_1 + \alpha_2 +\alpha_3 +\alpha_4 =1.
 \end{equation*}
-
-\end{document}  % КОНЕЦ ДОКУМЕНТА !
