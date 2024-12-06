@@ -16,7 +16,7 @@
 \usepackage{url}
 \usepackage{multirow}
 \usepackage{lastpage}
- \usepackage{systeme}
+\usepackage{systeme}
 
 \usepackage[toc,page]{appendix}
 \usepackage{hyperref}
@@ -54,7 +54,25 @@ backend=biber,
 style=numeric,
 sorting=ynt
 ]{biblatex}
-\addbibresource{chapters/*/main.bib}
+% Не работает в TeXstudio
+%\addbibresource{chapters/*/main.bib}
+\addbibresource{chapters/general/main.bib}
+\addbibresource{chapters/linear/main.bib}
+\addbibresource{chapters/neural/main.bib}
+\addbibresource{chapters/metric/main.bib}
+\addbibresource{chapters/svm/main.bib}
+\addbibresource{chapters/pca/main.bib}
+\addbibresource{chapters/nonlinear/main.bib}
+\addbibresource{chapters/general_linear/main.bib}
+\addbibresource{chapters/nonstandart_error/main.bib}
+\addbibresource{chapters/feature_selection/main.bib}
+\addbibresource{chapters/logical/main.bib}
+\addbibresource{chapters/rules/main.bib}
+\addbibresource{chapters/mixture/main.bib}
+\addbibresource{chapters/boosting/main.bib}
+\addbibresource{chapters/bayesian/main.bib}
+\addbibresource{chapters/clustering/main.bib}
+\addbibresource{chapters/unlabeled/main.bib}
 
 \begin{document}
 % Титульный лист
@@ -77,7 +95,7 @@ sorting=ynt
     \clearpage
     \chapter{Основы нейросетевых моделей}
     \input{chapters/neural/main}
-
+        
     \clearpage
     \chapter{Метрические методы классификации и регрессии}
     \input{chapters/metric/main}
