@@ -490,7 +490,6 @@ $\frac{\sum\limits_{i=1}^ly_iK\left(\frac{\rho(x, x^{(i)})}{h}\right)}{\sum\limi
 \textbf{Профиль компактности} выборки $X^L$ - это функция доли объектов $x_i$, у которых $m$-й сосед $x_i^{(m)}$ лежит в другом классе: $$ \begin{gathered} \Pi(m)=\frac{1}{L} \sum_{i=1}^L\left[y_i \neq y_i^{(m)}\right] ; \quad m=1, \ldots, L-1, \\ x_i^{(m)}-m \text {-й сосед объекта } x_i \text { среди } X^L ; \\ y_i^{(m)}-\text { ответ на } m \text {-м соседе объекта } x_i . \end{gathered} $$
 
 
-
 \subsection{CCV для метода 1NN}
 
 \noindent
@@ -502,6 +501,7 @@ $\frac{\sum\limits_{i=1}^ly_iK\left(\frac{\rho(x, x^{(i)})}{h}\right)}{\sum\limi
 
 \noindent
 Нетрудно заметить, что CСV при длине выборки равной 1 совпадает с LOO (leave-one-out).
+
 
 \subsection{Пример профилей компактности}
 
@@ -579,6 +579,7 @@ $\frac{\sum\limits_{i=1}^ly_iK\left(\frac{\rho(x, x^{(i)})}{h}\right)}{\sum\limi
 
 \noindent
 \textbf{Решение}:
+
 \begin{equation*}
 	R(m)=\frac{C_{L-1-m}^{\ell-1}}{C_{L-1}^{\ell}};
 \end{equation*}
