@@ -461,6 +461,142 @@ $\frac{\sum\limits_{i=1}^ly_iK\left(\frac{\rho(x, x^{(i)})}{h}\right)}{\sum\limi
 
 Выбор метрики расстояния является ключевым фактором, определяющим качество работы метода \(k\)-ближайших соседей. Оптимальная метрика зависит от природы данных, задачи и требований к точности и устойчивости модели. Для улучшения результатов рекомендуется проводить предварительный анализ данных, нормализацию признаков и тестирование нескольких метрик с использованием кросс-валидации.
 
+\newpage
+
+\section{Профиль компактности и оценка обобщающей способности}
+
+Пусть стоит задача улучшения алгоритма 1NN. Этого можно добиться, оставив из выборки только нужные  элементы, то есть произвести выбор эталонных элементов. Для такого выбора необходимо выполнить минимизацию CCV.
+
+
+\subsection{CCV}
+
+\noindent
+\textbf{Полный скользящий контроль}  (complete cross-validation, CCV):
+
+\begin{equation*}
+	\operatorname{CCV}\left(X^L\right)=\frac{1}{C_L^{\ell}} \sum_{X^{\ell} \sqcup X^k} \frac{1}{k} \sum_{x_i \in X^k}\left[a\left(x_i ; X^{\ell}\right) \neq y_i\right]
+\end{equation*}
+
+\noindent
+- частота ошибок алгоритма на контрольной выборке $X^k$, усреднённая по всем $C_L^{\ell}$ разбиениям выборки $X^L=X^{\ell} \sqcup X^k$ на обучающую подвыборку $X^{\ell}$ и контрольную $X^k$. \\
+
+\noindent
+Для дальнейших рассуждений введем понятие профиля компактности.
+
+
+\subsection{Профиль компактности}
+
+\noindent
+\textbf{Профиль компактности} выборки $X^L$ - это функция доли объектов $x_i$, у которых $m$-й сосед $x_i^{(m)}$ лежит в другом классе: $$ \begin{gathered} \Pi(m)=\frac{1}{L} \sum_{i=1}^L\left[y_i \neq y_i^{(m)}\right] ; \quad m=1, \ldots, L-1, \\ x_i^{(m)}-m \text {-й сосед объекта } x_i \text { среди } X^L ; \\ y_i^{(m)}-\text { ответ на } m \text {-м соседе объекта } x_i . \end{gathered} $$
+
+
+\subsection{CCV для метода 1NN}
+
+\noindent
+С учетом введенного $\Pi(m)$ справедлива следующая теорема о точном выражении CСV для метода 1NN:
+
+\begin{equation*}
+	\operatorname{CCV}\left(X^L\right)=\sum_{m=1}^k \Pi(m) \frac{C_{L-1-m}^{\ell-1}}{C_{L-1}^{\ell}} .
+\end{equation*}
+
+\noindent
+Нетрудно заметить, что CСV при длине выборки равной 1 совпадает с LOO (leave-one-out).
+
+
+\subsection{Пример профилей компактности}
+
+\noindent
+Проанализируем графики.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{chapters/metric/images/compact.png}
+	\label{fig:compact}
+	\caption{
+		Верхний ряд - два класса, средний ряд - профиль компактности $\Pi(m)$, нижний ряд - зависимость CCV от длины контроля.
+	}
+\end{figure}
+
+\noindent
+\textbf{Первый набор}: классы разнесены далеко друг от друга. Из профиля компактности видно, что у всех объектов 50 ближайших соседей лежат в своем классе. Значит, у этой задачи будет почти 100\% качество при использовании kNN алгоритма. \\
+
+\noindent
+\textbf{Второй набор}: классы расположены так, что между ними проходит граница. Профиль компактности линейно растет при увеличении числа соседей, причем для малого количества соседей имеем ненулевой $\Pi(m)$. \\
+
+\noindent
+\textbf{Третий набор}: классы проникают друг в друга. Начальный участок профиля компактности выше нуля, значит, у алгоритма kNN будет больше ошибок. \\
+
+\noindent
+\textbf{Четвертый набор}: классы равномерно распределены. Профиль компактности находится на уровне $0.5$, и у kNN нет возможности адекватно решить данную задачу: имеем случайное гадание. \\
+
+\noindent
+\textbf{Замечание}: из нижнего ряда имеем, что CCV почти не зависит от длины контроля, то есть нет причины выделять в контрольную выборку более одного объекта и достаточно использовать CCV(1).
+
+
+
+\subsection{Задачи}
+
+\noindent
+\textbf{Задача 1}: доказать точное выражение CCV для метода 1NN.
+
+\noindent
+\textbf{Решение}:
+
+\begin{equation*}
+	\begin{gathered} \operatorname{CCV}=\frac{1}{C_L^{\ell}} \sum_{X^{\ell} \sqcup X^k} \frac{1}{k} \sum_{i=1}^L\left[x_i \in X^k\right]\left[a\left(x_i ; X^{\ell}\right) \neq y_i\right]= \\ =\sum_{X^{\ell} \sqcup X^k} \sum_{i=1}^L \sum_{m=1}^k \frac{\left[y_i^{(m)} \neq y_i\right]}{k C_L^{\ell}}\left[x_i^{(m)} \in X^{\ell}\right]\left[x_i, x_i^{(1)}, \ldots, x_i^{(m-1)} \in X^k\right]= \\ =\sum_{m=1}^k \sum_{i=1}^L \frac{\left[y_i^{(m)} \neq y_i\right]}{k C_L^{\ell}} \sum_{X^{\ell} \sqcup X^k}\left[x_i^{(m)} \in X^{\ell}\right]\left[x_i, x_i^{(1)}, \ldots, x_i^{(m-1)} \in X^k\right]= \\ =\sum_{m=1}^k \sum_{i=1}^L \frac{\left[y_i^{(m)} \neq y_i\right]}{k C_L^{\ell}} C_{L-1-m}^{\ell-1}=\sum_{m=1}^k \underbrace{\frac{1}{\sum_{i=1}^L\left[y_i^{(m)} \neq y_i\right]} \frac{C_{L-1-m}^{\ell-1}}{C_{L-1}^{\ell}} .}_{\Pi(m)} 
+	\end{gathered}
+\end{equation*}
+
+\noindent
+\textbf{Задача 2}: получить выражения для CCV при малой длине контроля.
+
+\noindent
+\textbf{Решение}:
+
+\begin{equation*}
+	\begin{aligned} 
+		\mathrm{CCV(1)}=\Pi(1)=\mathrm{LOO}
+	\end{aligned}
+\end{equation*}
+
+\begin{equation*}
+	\begin{aligned} 
+		\mathrm{CCV(2)}=\Pi(1) \frac{\ell}{\ell+1}+\Pi(2) \frac{1}{\ell+1}
+	\end{aligned}
+\end{equation*}
+
+\begin{equation*}
+	\begin{aligned}
+		\mathrm{CCV(3)}=\Pi(1) \frac{\ell}{\ell+2}+\Pi(2) \frac{2 \ell}{(\ell+1)(\ell+2)}+\Pi(3) \frac{2}{(\ell+1)(\ell+2)} 
+	\end{aligned}
+\end{equation*}
+
+\noindent
+При достаточно гладком распределении $\Pi(m)$ CCV слабо зависит от длины контроля.  \\ \\
+
+\noindent
+\textbf{Задача 3}: получить скорость спада множителя при $\Pi(m)$ в выражении для CCV.
+
+\noindent
+\textbf{Решение}:
+
+\begin{equation*}
+	R(m)=\frac{C_{L-1-m}^{\ell-1}}{C_{L-1}^{\ell}};
+\end{equation*}
+
+\begin{equation*}
+	\frac{R(m+1)}{R(m)}=1-\frac{\ell-1}{L-1-m}<\frac{k}{L-1} .
+\end{equation*}
+
+\noindent
+То есть $R(m)$ стремится к нулю быстрее геометрической прогрессии.
+
+
+\subsection{Минимизация CСV}
+
+Из рассмотренных графиков и приведенных задач получили, что 
+$\mathrm{CCV}$ тем меньше, чем чаще близкие объекты лежат в одном классе. Значит, минимизируя CСV, можно добиться лучшего результата работы алгоритма k ближайших соседей. CCV почти не зависит от длины контроля для kNN, поэтому достаточно использовать CCV(1) равный LOO.
+
 
 \section*{Приближенные методы поиска ближайщих соседей (ANN)}
 
